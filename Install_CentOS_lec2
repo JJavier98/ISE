@@ -1,0 +1,14 @@
+GUIA DE INSTALACIÓN DE CENTOS
+
+#######################################################################################
+En esta ocasión, en la empresa en la que le acaban de contratar tenían adquirido un
+servidor y su predecesor había realizado la instalación del S.O. CentOS, según le han co-
+mentado los compañeros, él solía hacer instalaciones por defecto y luego aplicar scripts de
+configuración. Sin más información, nuestro jefe nos informa que esa máquina va a alojar
+unos cursos con vídeos de alta calidad y relativamente largos. Por tanto, viendo la con-
+figuración del sistemas, prevemos que /var necesitará más espacio, incluso es conveniente
+asignarle un LV exclusivamente. Para ello, incluiremos un nuevo disco y configuraremos
+LVM para que /var se monte en el nuevo VL que crearemos para él.
+#######################################################################################
+
+1.- Elegir idioma

@@ -1,0 +1,80 @@
+GUIÓN PARA INSTALAR UBUNTU SERVER
+
+#######################################################################################
+Usted está trabajando en una empresa proveedora de servicios y recibe la solicitud de
+un cliente que sea tener un servidor para la implantación de un comercio electrónico
+mediante un CMS.
+Sin tener más detalles por parte del cliente, le pregunta a un compañero qué configuración
+se suele aplicar en estos casos. Este le remite a su jefa de Dpto. que le recomienda la con-
+figuración de un RAID1 gestionado con LVM, cifrando toda la información para cumplir
+con la legislación vigente. También le recomienda crear al menos 4 VL (arranque,hogar,
+raiz swap).
+#######################################################################################
+
+Crearemos un RAID1 con dos discos duros.
+Crearemos un grupo lógico y en él un conjunto de 4 volúmenes lógicos de los cuales 3 irán cifrados.
+
+1.- Seleccionar país
+2.- Configurar la disposición de teclado
+3.- Establecer un nombre a la máquina (ej: ubuntuServer-ISE)
+4.- Intriducir nombre de usuario (nuestras iniciales en mayúsculas)
+5.- Nombre de usuario para cuenta (nuestras iniciales en minúsculas)
+6.- Contraseña para el usuario (practicas,ISE)
+7.- No ciframos nuestra carpeta personal porque vamos a cifrar los LV (volúmenes lógicos)
+8.- Configuramos zona horaria
+9.- Seleccionamos particionamiento manual de discos
+	9.1.- Creamos tablas de partición de cada disco 'clicando' en ellos
+	9.2.- Configuramos RAID por software
+		9.2.1.- Creamos dispositivo MD
+		9.2.2.- Seleccionamos RAID1 (la información quedará duplicada por igual en todos los discos duros)
+		9.2.3.- Seleccionamos nº de dispositivos a utilizar: en este caso 2
+		9.2.4.- Seleccionamos el nº de dispositivos libres: en este caso 0
+		9.2.5.- Seleccionamos los discos en los que vamos a montar el RAID: los dos que nos aparecen
+		9.2.6.- Confirmamos y terminamos
+	9.3.- Configuramos Gestor de Volúmenes Lógicos (LVM)
+		9.3.1.- Creamos un grupo de volúmenes (VG --> volumes group). Ej: vgroup0
+			9.3.1.1.- Seleccionamos sobre que "disco" lo queremos montar (En nuestro caso es el RAID md0)
+		9.3.2.- Ceamos Volúmenes Lógicos (LV --> logical volume)
+			9.3.2.1.- Seleccionamos en qué grupo irá ese LV: vgroup0
+			9.3.2.2.- Damos nombre al LV: boot
+			9.3.2.3.- Asignamos el tamaño: 400 MB
+
+			9.3.2.4.- Seleccionamos en qué grupo irá ese LV: vgroup0
+			9.3.2.5.- Damos nombre al LV: swap
+			9.3.2.6.- Asignamos el tamaño: lo que hayamos asignado a la RAM de la máquina Virtual. Mi caso: 1024 MB
+
+			9.3.2.7.- Seleccionamos en qué grupo irá ese LV: vgroup0
+			9.3.2.8.- Damos nombre al LV: home
+			9.3.2.9.- Asignamos el tamaño: 4096 MB
+
+			9.3.2.10.- Seleccionamos en qué grupo irá ese LV: vgroup0
+			9.3.2.11.- Damos nombre al LV: root
+			9.3.2.12.- Asignamos el tamaño: 5209 MB (el resto)
+
+			9.3.2.13.- Terminamos
+		9.3.3.- Configuramos los volúmenes cifrados
+			9.3.3.1.- Creamos volúmenes encriptados
+			9.3.3.2.- Seleccionamos los LV que queramos encriptar (todos excepto 'boot' ya que no ppodríamos arrancar si encriptamos esta partición)
+			9.3.3.3.- Podemos dejar por defecto todos los apartados pero si queremos en 'swap' podemos disminuir la longitud de la clave para que el intercambio sea más fluido. En este caso vamos a dejar en los tres casos todo por defecto --> 'Se ha terminado de definir la partición'
+			9.3.3.4.- Finalizamos y establecemos una contraseña para cada LV. Nosotros usaremos la misma en todos aunque sea una mala práctica: practicas,ISE
+		9.3.4.- Seleccionamos los LV uno a uno para seleccionar un Sistema de Archivos y montarlo en su directorio correspondiente
+			9.3.4.1.- boot:
+						Utilizar como: ext2
+						Punto de montaje: /boot
+
+					  vgroup0-home_crypt:
+						Utilizar como: ext4
+						Punto de montaje: /home
+
+					  vgroup0-root_crypt:
+					  	Utilizar como: ext4
+						Punto de montaje: /
+
+					  vgroup0-swap_crypt:
+					  	Utilizar como: área de intercambio
+		9.3.5.- Terminamos el particionado y escribimos los cambios en disco
+10.- Dejamos en blanco el proxy HTTP
+11.- Seleccionamos NO actualizar automáticamente
+12.- Instalamos solamente 'standart system utilities'
+13.- Instalamos GRUB en el registro principal de arranque: <SI> (cualquiera de los dos discos; por ejemplo sda)
+14.- Instalación completada. Reiniciamos y listo.

@@ -12,3 +12,26 @@ LVM para que /var se monte en el nuevo VL que crearemos para él.
 #######################################################################################
 
 1.- Elegir idioma
+2.- Seleccionar destino de instalación. Ej: sda
+3.- Comenzamos instalación
+4.- Introducimos una contraseña para superusuario --> practicas,ISE
+5.- Creamos un nuevo usuario:
+	Nombre completo: 'Nuestras iniciales en mayúsculas'
+	Nombre de usuario: 'Nuestras iniciales en misnúsculas'
+	Marcamos la casilla de 'hacer a este usuario administrador'
+	Establecemos una contraseña para el usuario --> practicas,ISE
+6.- Esperamos y finalizamos configuración
+7.- Esperamos y reiniciamos.
+8.- ¡CentOS ya está instalado!
+9.- Entramos en modo 'atómico' para que las siguientes instrucciones que ejecutemos lo hagan en sección crítica: sytemctl isolate runlevel1.target
+10.- Entramos en modo superusuario `sudo su` para mayor comodidad
+11.- Creamos un PV (Physical Volume): pvcreate /dev/sdX	--> donde 'X' es la letra [y posible número] que identifica al disco.
+12.- CentOS por defecto crea un VG llamado 'cl'. Debemos extender este grupo y añadir el nuevo PV a él: vgextend <VG name> <PV1 name> [<PV2 name> ...]. En este caso: vgextend cl /dev/sdb
+13.- Hacemos `vgdisplay` para fijarnos en 'Free PE' (physical extents libre) y usar ese dato en la siguiente linea.
+13.- Ahora creamos el LV 'newvar' al que copiaremos los datos del antiguo /var: lvcreate -l <Free PE> -n newvar cl
+14.- Creamos el SA que vamos a usar en el LV: mkfs -t ext4 /dev/mapper/cl-newvar
+15.- Agregamos el nuevo volumen a FSTAB: vi /etc/fstab --> /dev/mapper/cl-newvar /var	ext4	defaults 0 0
+16.- Montamos el nuevo SA:
+		mkdir /media/newvar
+		mount /dev/mapper/cl-newvar /media/newvar
+17.- seguimos mañana ;)

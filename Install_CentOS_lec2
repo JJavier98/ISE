@@ -30,8 +30,8 @@ LVM para que /var se monte en el nuevo VL que crearemos para él.
 13.- Hacemos `vgdisplay` para fijarnos en 'Free PE' (physical extents libre) y usar ese dato en la siguiente linea.
 13.- Ahora creamos el LV 'newvar' al que copiaremos los datos del antiguo /var: lvcreate -l <Free PE> -n newvar cl
 14.- Creamos el SA que vamos a usar en el LV: mkfs -t ext4 /dev/mapper/cl-newvar
-15.- Agregamos el nuevo volumen a FSTAB: vi /etc/fstab --> /dev/mapper/cl-newvar /var	ext4	defaults 0 0
-16.- Montamos el nuevo SA:
+15.- Montamos el nuevo SA:
 		mkdir /media/newvar
 		mount /dev/mapper/cl-newvar /media/newvar
-17.- seguimos mañana ;)
+16.- Agregamos el nuevo volumen a FSTAB: vi /etc/fstab --> /dev/mapper/cl-newvar /var	ext4	defaults 0 0
+17.- Copiar /var a /newvar

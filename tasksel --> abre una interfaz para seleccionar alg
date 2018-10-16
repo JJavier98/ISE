@@ -1,0 +1,80 @@
+1. instalar ssh
+2. denegar acceso a root
+3. cambiar puerto
+4. clave publica / privada
+
+
+
+
+tasksel --> abre una interfaz para seleccionar algunos paquetes para instalar.
+es mejor usar apt ya que nos muestra más información sobre los paquetes instalados.
+
+para comprobar que ssh esta funcionando --> ps -Af | grep ssh (-A : todos los procesos, -f : lista comppleta)
+
+cuando un proceso acaba en 'd' quiere decir que es un demonio
+
+ssh vs sshd: el cliente utiliza ssh para conectarse al servidor que utiliza sshd
+ssh son dos aplicaciones. Servicio ssh nos referimos a sshd.
+archivos de configuracion ssh:  /etc/ssh/ssh_config /etc/ssh/sshd_config. Si buscamos los archivos en un equipo cliente solo encontraremos /etc/ssh/ssh_config
+
+systemctl status ssh[.service]
+systemctl status sshd[.service]
+
+si hay problemas al ofrecer servicios lo primero que hay que probar es si me puedo dar servicios a mimismo: ssh localhost
+
+para conectar mediante ssh con otro usuario podemos hacerlo de dos formas:
+	ssh user@IP
+	ssh IP -l user
+___________________________________________________________________
+
+ssh 	por_defecto 	nomenclatura	Acceso root		Archivo configuración	Fire Wall
+UbuServ	NO 		ssh ó sshd 	no con password		sin comentar		OFF
+CentOS	SI 		sshd 		si con password		comentado por defecto	ON
+___________________________________________________________________
+
+Ubuntu-> 2.- vamos a denegar el acceso a root (por motivos de seguridad):
+		crear copia de seguridad --> cp /etc/ssh/sshd_config /etc/ssh/sshd_config_vap (vayamos a problemas)
+		sudo vi /etc/ssh/sshd_config
+		buscamos PermitRootLogin y lo cambiamos a 'no'
+		reiniciamos el servicio --> sudo systemctl restart sshd
+
+CentOS-> 2.- vamos a denegar el acceso a root (por motivos de seguridad):
+		crear copia de seguridad --> cp /etc/ssh/sshd_config /etc/ssh/sshd_config_vap (vayamos a problemas)
+		sudo vi /etc/ssh/sshd_config
+		buscamos PermitRootLogin y lo cambiamos a 'no'. Tenemos que descomentar la linea
+		reiniciamos el servicio --> sudo systemctl restart sshd
+
+Ubuntu-> 3.- cambiar puerto
+		crear copia de seguridad --> cp /etc/ssh/sshd_config /etc/ssh/sshd_config_vap (vayamos a problemas)
+		sudo vi /etc/ssh/sshd_config
+		buscamos Port y lo cambiamos. Ejemplo 22022
+		reiniciamos el servicio --> sudo systemctl restart sshd
+		para comprobar que está usando el puerto --> systemctl status sshd
+		ssh 192.168.56.105 -l jjar -p 22022
+
+		sed -e "s/#Port 22/Port 22022" -i /etc/ssh/sshd_config
+			sustituye '#Port 22' por 'Port 22022'
+			opción -i para que escriba en el fichero
+
+CentOS-> 3.- cambiar puerto
+		crear copia de seguridad --> cp /etc/ssh/sshd_config /etc/ssh/sshd_config_vap (vayamos a problemas)
+		sudo vi /etc/ssh/sshd_config
+		buscamos Port y lo cambiamos. Ejemplo 22022
+		reiniciamos el servicio --> sudo systemctl restart sshd
+		para comprobar que está usando el puerto --> systemctl status sshd
+		ssh 192.168.56.105 -l jjar -p 22022
+
+		yum search 'paquete'
+		yum provides 'paquete' --> nos dice el paquete necesario
+
+		semanage port -l | grep ssh
+
+		semanage port -a -t ssh_port_t -p tcp #PORTNUMBER
+		semanage port -a -t ssh_port_t -p tcp 22022
+			      añadir tipo      protocolo
+
+4.- clave publica / privada
+		extension publica --> .pub
+		extension privada --> .id_rsa
+		ssh-keygen
+		desde centOS --> para copiar el id publico para ingresar en un serviddor sin necesidad de contraseña usamos: ssh-copy-id 192.168.56.105 -p 22022

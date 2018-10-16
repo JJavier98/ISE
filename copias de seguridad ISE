@@ -1,0 +1,6 @@
+HAY GUIÓN PDF!!!!!!
+
+Para copiar un sistema de archivos debemos hacer uns instantanea (lo permite LVM) o hacerlo de manera atómica para que no se hagan cambios mientras se hace la copia y perder su integridad.
+Al hacer la copia de seguridad es conveniente comprimir y cifrar el SA para su almacenamiento.
+La copia la podemos almacenar en la nube con el risgo de perder la conexión en el momento de transferencia o recuperación de la copia.
+La copia la realizaremos de forma incremental, es decir, compararemos el SA del que queremos hacer backup con la copia que ya tenemos guardada. Mandaremos al servidor únicamente aquellos datos que hayan sido alterados o añadidos de tal manera que evitamos enviar datos redundantes y ahorramos en tiempo de transferencia.

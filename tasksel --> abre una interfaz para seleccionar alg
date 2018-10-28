@@ -28,8 +28,8 @@ para conectar mediante ssh con otro usuario podemos hacerlo de dos formas:
 ___________________________________________________________________
 
 ssh 	por_defecto 	nomenclatura	Acceso root		Archivo configuración	Fire Wall
-UbuServ	NO 		ssh ó sshd 	no con password		sin comentar		OFF
-CentOS	SI 		sshd 		si con password		comentado por defecto	ON
+UbuServ	NO 				ssh ó sshd 		no con password		sin comentar			OFF
+CentOS	SI 				sshd 			si con password		comentado por defecto	ON
 ___________________________________________________________________
 
 Ubuntu-> 2.- vamos a denegar el acceso a root (por motivos de seguridad):

@@ -1,0 +1,59 @@
+HTML -> Hyper Text Markup Language
+
+markup <etiqueta>texto</etiqueta>
+	indica como se debe visualizar un texto en un archivo.
+
+Hipertexto: es un texto que contiene una referencia o un enlace a otro texto. Este enlace lo indicamos con una etiqueta.
+
+JavaScript se ejecuta en la máquina cliente, en el navegador.
+
+Web "dinamica"? -> implica un lenguaje específico que se ejecuta en el servidor. Tiene un sistema de base de datos con su gestor de base de datos.
+
+Apache, lighthttpd... sistemas que aportan paginas por el puerto 80
+
+Bases de datos: MySQL, Mongodb
+
+Lenguaje: php, python
+
+SOLUTION STACK::: Apache, MySQL, PHP  --> linux: LAMP, Windows: WAMP, Mac: MAMP
+
+
+Instalar LAMP en ubuntu con tasksel
+comprobar que funciona: systemctl apache2.service
+
+HTTP Hyper Text Transfer Protocol
+
+al instalar httpd en centos por defecto está desinstalado
+systemctl enable httpd
+yum install php (ocua 6.4M)
+yum install mariadb (ocupa 21M)
+yum install mariadb-server (ocupa 12M)
+systemctl status mariadb
+systemctl enable mariadb
+systemctl start mariadb
+mysql_secure_installation
+	la primera contraseña pedida es la antigua. Como no habia se deja vacia
+	Todo lo demas por defecto
+
+Para asegurarnos que funciona el servidor debemos cargar un archivo de prueba y acceder a él desde fuera.
+
+
+firewall-cmd --add-port=80/tcp --permanent [access]
+firewall-cmd --reload
+
+
+curl localhost
+
+
+fail2ban es un servicio
+
+
+fail2ban (comando fail2ban-client)--> si alguien intenta acceder a algún servicio y proboca un error determinado será baneado.
+tmux y screen--> son equivalentes. tmux más nuevo. Si se cae la conexión retomamos la conexion gracias a ellos.
+rootkit hunter (comando rkhunter)-> identificador de malware
+
+
+
+
+
+DIFERENCIA ENTRE TASKSEL Y BASH --> tasksel hemos introducido una contraseña.

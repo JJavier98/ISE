@@ -1,0 +1,57 @@
+UBUNTU
+
+tasksel --> abre una interfaz para seleccionar algunos paquetes para instalar.
+es mejor usar apt ya que nos muestra más información sobre los paquetes instalados.
+
+para comprobar que ssh esta funcionando --> ps -Af | grep ssh (-A : todos los procesos, -f : lista comppleta)
+
+cuando un proceso acaba en 'd' quiere decir que es un demonio
+
+ssh vs sshd: el cliente utiliza ssh para conectarse al servidor que utiliza sshd
+ssh son dos aplicaciones. Servicio ssh nos referimos a sshd.
+archivos de configuracion ssh:  /etc/ssh/ssh_config /etc/ssh/sshd_config. Si buscamos los archivos en un equipo cliente solo encontraremos /etc/ssh/ssh_config
+
+systemctl status ssh[.service]
+systemctl status sshd[.service]
+
+si hay problemas al ofrecer servicios lo primero que hay que probar es si me puedo dar servicios a mimismo: ssh localhost
+
+para conectar mediante ssh con otro usuario podemos hacerlo de dos formas:
+	ssh user@IP
+	ssh IP -l user
+___________________________________________________________________
+
+ssh 		por_defecto 	nomenclatura	Acceso root		Archivo configuración	Fire Wall
+UbuServ		NO 				ssh ó sshd 		no con password		sin comentar			OFF
+CentOS		SI 				sshd 			si con password		comentado por defecto	ON
+___________________________________________________________________
+
+	INSTALAR OPENSSH-SERVER
+		apt search ssh | grep server
+		apt-get install openssh-server
+
+	COMPROBAR QUE ESTÁ INSTALADO
+		ps -Af | grep ssh  -> vemos si sale alguna línea con ssh. Debería salir sshd que es un demonio del proceso servidor.
+		systemctl status ssh.service --> systemctl status ssh [la opcion .service es por defecto]
+
+	ARCHIVOS DE CONFIGURACION
+		/etc/ssh/ --> archivos ssh configura los procesos cliente
+		/etc/ssh/ --> archivos sshd configura los procesos servidor
+
+	PROBAMOS EL SERVICIO DE MANERA LOCAL
+		ssh localhost
+
+	PROBAMOS EL SERVICIO DE MANERA REMOTA
+		ssh ip
+		ssh user@ip
+		ssh ip -l user
+		ssh ip -l user -p port
+
+	ssh excluye a root como usuario permitido
+
+CENTOS
+
+	ssh viene instalado y en ejecucion
+	ssh localhost -> funciona
+	systemctl status sshd.service
+	ssh 192.168.56.110 (desde host) -> funciona

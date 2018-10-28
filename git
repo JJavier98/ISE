@@ -1,0 +1,9 @@
+git init
+git config --global user.name "Nombre"
+git config --global user.email correo@correo.correo
+git status
+git log
+
+git add
+git commit -m "mensaje"
+git push

@@ -19,7 +19,7 @@ SOLUTION STACK::: Apache, MySQL, PHP  --> linux: LAMP, Windows: WAMP, Mac: MAMP
 
 
 Instalar LAMP en ubuntu con tasksel
-comprobar que funciona: systemctl apache2.service
+comprobar que funciona: systemctl status apache2.service
 
 HTTP Hyper Text Transfer Protocol
 
@@ -32,7 +32,7 @@ systemctl status mariadb
 systemctl enable mariadb
 systemctl start mariadb
 mysql_secure_installation
-	la primera contraseña pedida es la antigua. Como no habia se deja vacia
+	la primera contraseña pedida es la antigua. Como no habia se deja vacia rellenar nuevas contraseñas.
 	Todo lo demas por defecto
 
 Para asegurarnos que funciona el servidor debemos cargar un archivo de prueba y acceder a él desde fuera.

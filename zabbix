@@ -1,0 +1,7 @@
+cat /var/log/audit/audit.log | grep zabbix_agentd | grep denied | audit2allow -M zabbix_agent_setrlimit
+
+semodule -i zabbix_agent_setrlimit.pp
+systemctl restart zabbix-agent
+
+zabbix_get -s 192.168.156.110 -k net.tcp.service[hhtp]
+zabbix_get -s 192.168.156.110 -k net.tcp.service[ssh,,22022]
